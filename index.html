@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8" />
+    <title>Visual Expense · מערכת ניהול ספקים</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="styles.css" rel="stylesheet" />
+</head>
+
+<body>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="logo">VE</div>
+            <div class="brand-text">
+                <h1>Visual Expense</h1>
+                <p>מערכת ניהול ספקים וחשבוניות</p>
+            </div>
+        </div>
+
+        <nav class="side-nav">
+            <button class="nav-item active" data-view="dashboardView">דשבורד</button>
+            <button class="nav-item" data-view="entriesView">תנועות</button>
+            <button class="nav-item" data-view="reconcileView">התאמות סוף חודש</button>
+            <button class="nav-item" data-view="suppliersView">ספקים</button>
+            <button class="nav-item" data-view="categoriesView">קטגוריות</button>
+            <button class="nav-item" data-view="settingsView">הגדרות</button>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main">
+
+        <!-- Header -->
+        <header class="main-header">
+            <h2 id="viewTitle">דשבורד</h2>
+            <div class="month-picker">
+                <label>חודש עבודה:</label>
+                <input type="month" id="monthSelect">
+            </div>
+        </header>
+
+        <!-- Views Container -->
+        <section class="views">
+
+            <!-- Dashboard -->
+            <div id="dashboardView" class="view visible">
+                <div class="kpi-grid">
+                    <div class="kpi-card">
+                        <h3>סה״כ תעודות משלוח</h3>
+                        <div id="kpiDeliveries" class="kpi-number">0 ₪</div>
+                    </div>
+
+                    <div class="kpi-card">
+                        <h3>סה״כ חשבוניות</h3>
+                        <div id="kpiInvoices" class="kpi-number">0 ₪</div>
+                    </div>
+
+                    <div class="kpi-card">
+                        <h3>הפרש</h3>
+                        <div id="kpiDiff" class="kpi-number">0 ₪</div>
+                    </div>
+
+                    <div class="kpi-card">
+                        <h3>מחזור חודשי</h3>
+                        <input id="incomeInput" type="number" placeholder="הכנס מחזור..." />
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <h3>התפלגות הוצאות לפי ספק</h3>
+                    <canvas id="supplierChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Entries -->
+            <div id="entriesView" class="view">
+                <div class="panel">
+                    <h3>הוספת תנועה</h3>
+
+                    <form id="entryForm">
+                        <div class="grid-2">
+                            <label>
+                                סוג תנועה
+                                <select id="entryType">
+                                    <option value="delivery">תעודת משלוח</option>
+                                    <option value="invoice">חשבונית</option>
+                                </select>
+                            </label>
+
+                            <label>
+                                ספק
+                                <input list="supplierList" id="entrySupplier" placeholder="התחל להקליד שם ספק" />
+                            </label>
+
+                            <label>
+                                מספר מסמך
+                                <input type="text" id="entryNumber" />
+                            </label>
+
+                            <label>
+                                תאריך
+                                <input type="date" id="entryDate" />
+                            </label>
+
+                            <label class="span-2">
+                                סכום (₪)
+                                <input type="number" id="entryAmount" step="0.01" />
+                            </label>
+
+                            <label class="span-2">
+                                הערות
+                                <textarea id="entryNotes"></textarea>
+                            </label>
+                        </div>
+
+                        <button type="submit" class="primary">הוסף תנועה</button>
+                    </form>
+                </div>
+
+                <div class="panel">
+                    <h3>תנועות בחודש</h3>
+                    <div class="table-responsive">
+                        <table class="data-table" id="entriesTable">
+                            <thead>
+                                <tr>
+                                    <th>סוג</th>
+                                    <th>ספק</th>
+                                    <th>מס׳</th>
+                                    <th>תאריך</th>
+                                    <th>סכום</th>
+                                    <th>סטטוס</th>
+                                    <th>הערות</th>
+                                    <th>מחק</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reconcile -->
+            <div id="reconcileView" class="view">
+                <div class="panel">
+                    <h3>התאמת סוף חודש</h3>
+
+                    <div class="table-responsive">
+                        <table class="data-table" id="reconcileTable">
+                            <thead>
+                                <tr>
+                                    <th>ספק</th>
+                                    <th>סה״כ משלוחים</th>
+                                    <th>סה״כ חשבוניות</th>
+                                    <th>הפרש</th>
+                                    <th>סטטוס</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Suppliers -->
+            <div id="suppliersView" class="view">
+                <div class="panel">
+                    <h3>ניהול ספקים</h3>
+
+                    <form id="supplierForm">
+                        <label>שם ספק
+                            <input type="text" id="supplierName" />
+                        </label>
+
+                        <label>קטגוריה
+                            <select id="supplierCategory"></select>
+                        </label>
+
+                        <label>טלפון
+                            <input type="text" id="supplierPhone" />
+                        </label>
+
+                        <label>אימייל
+                            <input type="email" id="supplierEmail" />
+                        </label>
+
+                        <label>הערות
+                            <textarea id="supplierNotes"></textarea>
+                        </label>
+
+                        <button class="primary">שמור ספק</button>
+                    </form>
+
+                    <h3 style="margin-top:32px;">רשימת ספקים</h3>
+                    <div class="table-responsive">
+                        <table class="data-table" id="suppliersTable">
+                            <thead>
+                                <tr>
+                                    <th>שם</th>
+                                    <th>קטגוריה</th>
+                                    <th>טלפון</th>
+                                    <th>עריכה</th>
+                                    <th>מחק</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+
+                    <datalist id="supplierList"></datalist>
+                </div>
+            </div>
+
+            <!-- Categories -->
+            <div id="categoriesView" class="view">
+                <div class="panel">
+                    <h3>קטגוריות ספקים</h3>
+
+                    <form id="categoryForm">
+                        <label>שם קטגוריה
+                            <input type="text" id="categoryName" />
+                        </label>
+                        <button class="primary">הוסף קטגוריה</button>
+                    </form>
+
+                    <div class="table-responsive" style="margin-top:24px;">
+                        <table class="data-table" id="categoriesTable">
+                            <thead>
+                                <tr>
+                                    <th>שם קטגוריה</th>
+                                    <th>מחק</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings -->
+            <div id="settingsView" class="view">
+                <div class="panel">
+                    <h3>הגדרות מערכת</h3>
+
+                    <button id="resetBtn" class="danger">איפוס מלא של המערכת</button>
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>
