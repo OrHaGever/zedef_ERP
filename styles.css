@@ -1,0 +1,283 @@
+/* ----------------------------------------------------
+   RESET & BASE TOKENS
+---------------------------------------------------- */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+
+:root {
+  /* Sizes */
+  --s-1: 6px; 
+  --s-2: 10px; 
+  --s-3: 14px; 
+  --s-4: 18px; 
+  --s-5: 24px; 
+  --s-6: 32px;
+
+  /* Dark theme only */
+  --bg: #0b0f15;
+  --surface: #141a25;
+  --surface-2: #1b2130;
+  --text: #ecf1fb;
+  --muted: #8f9ab2;
+  --border: #2a3446;
+  --primary: #69a7ff;
+  --primary-2: #4ed0b9;
+  --danger: #ff6b6b;
+  --accent: #7c8cff;
+
+  --shadow: 0 16px 40px rgba(0,0,0,.35);
+  --radius: 14px;
+}
+
+/* ----------------------------------------------------
+   BASE
+---------------------------------------------------- */
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: Heebo, system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.55;
+  overflow-x: hidden;
+}
+
+h1,h2,h3,h4 { font-weight: 600; }
+
+/* ----------------------------------------------------
+   LAYOUT: SIDEBAR + CONTENT
+---------------------------------------------------- */
+.layout {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+  background: var(--surface);
+  border-inline-end: 1px solid var(--border);
+  padding: var(--s-5) var(--s-3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-5);
+}
+
+.sidebar h1 {
+  font-size: 20px;
+  margin-bottom: var(--s-3);
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.nav button {
+  text-align: right;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  padding: 12px;
+  border-radius: 10px;
+  color: var(--text);
+  cursor: pointer;
+  transition: 0.15s ease;
+}
+
+.nav button:hover {
+  background: #1f2737;
+}
+
+.nav button.active {
+  background: var(--primary);
+  color: #fff;
+  border-color: transparent;
+  box-shadow: var(--shadow);
+}
+
+/* Main Content */
+.content {
+  padding: var(--s-5);
+  overflow-y: auto;
+}
+
+.section-title {
+  font-size: 22px;
+  margin-bottom: var(--s-4);
+}
+
+/* ----------------------------------------------------
+   CARDS
+---------------------------------------------------- */
+.card {
+  background: var(--surface);
+  padding: var(--s-5);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  margin-bottom: var(--s-5);
+}
+
+/* ----------------------------------------------------
+   FORMS
+---------------------------------------------------- */
+label {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+input, select, textarea {
+  width: 100%;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  padding: 12px;
+  border-radius: var(--radius);
+  color: var(--text);
+  font-size: 15px;
+}
+
+input:focus, select:focus, textarea:focus {
+  outline: 2px solid var(--primary);
+}
+
+textarea { resize: vertical; }
+
+/* Buttons */
+button.primary {
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  padding: 12px 20px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-weight: 600;
+  box-shadow: var(--shadow);
+}
+
+button.primary:hover {
+  background: #5b96e8;
+}
+
+button.ghost {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 10px 16px;
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+
+button.danger {
+  background: var(--danger);
+  border: none;
+  padding: 10px 14px;
+  color: #fff;
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+
+/* ----------------------------------------------------
+   TABLES
+---------------------------------------------------- */
+.table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead th {
+  background: var(--surface-2);
+  color: var(--muted);
+  text-align: right;
+  padding: 12px;
+  font-weight: 600;
+  border-bottom: 1px solid var(--border);
+}
+
+tbody td {
+  padding: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+tbody tr:nth-child(even) {
+  background: rgba(255,255,255,0.03);
+}
+
+/* For grouped rows */
+.group-row td {
+  background: #1f2737 !important;
+  font-weight: 600;
+  color: var(--text);
+}
+
+/* Highlight row */
+.outlier-row td {
+  background: rgba(255,107,107,0.15) !important;
+}
+
+/* Summary row */
+.summary-row td {
+  background: #1a2333 !important;
+  font-weight: 700;
+}
+
+/* ----------------------------------------------------
+   STATUS BADGES
+---------------------------------------------------- */
+.badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.badge-rec { background: rgba(33,212,170,.18); color: #42e4bf; }
+.badge-one { background: rgba(255,107,107,.18); color: #ff9a9a; }
+.badge-paid { background: rgba(99,255,172,.18); color: #93ffbe; }
+.badge-unpaid { background: rgba(255,167,64,.18); color: #ffc48e; }
+
+/* ----------------------------------------------------
+   TOAST
+---------------------------------------------------- */
+#toast {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: var(--surface-2);
+  padding: 14px 20px;
+  color: var(--text);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  opacity: 0;
+  transition: 0.25s ease;
+  pointer-events: none;
+  box-shadow: var(--shadow);
+}
+
+#toast.show { opacity: 1; }
+
+/* ----------------------------------------------------
+   RESPONSIVE
+---------------------------------------------------- */
+@media (max-width: 900px) {
+  .layout { grid-template-columns: 1fr; }
+
+  .sidebar {
+    flex-direction: row;
+    overflow-x: auto;
+    padding: var(--s-3);
+    gap: var(--s-3);
+  }
+
+  .content {
+    padding: var(--s-3);
+  }
+}
